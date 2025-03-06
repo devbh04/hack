@@ -83,7 +83,7 @@ const useStore = create((set) => ({
   fetchItems: async (name) => {
     try {
       console.log('Fetching items with name:', name); // Debugging
-      const response = await fetch(`https://l1pm3fq9-5001.inc1.devtunnels.ms/api/items?name=${name}`);
+      const response = await fetch(`https://26df-103-181-14-146.ngrok-free.app/api/items?name=${name}`);
       console.log('Response status:', response.status); // Debugging
       if (!response.ok) {
         throw new Error('Failed to fetch items');
@@ -101,7 +101,7 @@ const useStore = create((set) => ({
   fetchItemDetails: async (id) => {
     try {
       console.log('Fetching item details for ID:', id); // Debugging
-      const response = await fetch(`https://l1pm3fq9-5001.inc1.devtunnels.ms/api/items/${id}`);
+      const response = await fetch(`https://26df-103-181-14-146.ngrok-free.app/api/items/${id}`);
       console.log('Response status:', response.status); // Debugging
       if (!response.ok) {
         if (response.status === 404) {
