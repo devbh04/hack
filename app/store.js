@@ -82,14 +82,17 @@ const useStore = create((set) => ({
   // Fetch items by name
   fetchItems: async (name) => {
     try {
-      console.log('Fetching items with name:', name); // Debugging
-      const response = await fetch(`https://a735-103-181-14-146.ngrok-free.app/api/items?name=${name}`);
-      console.log('Response status:', response.status); // Debugging
-      if (!response.ok) {
-        throw new Error('Failed to fetch items');
+      const response = await fetch(`https://a929-103-181-14-146.ngrok-free.app/api/items?name=${name}`, {
+        headers: {
+          'ngrok-skip-browser-warning': 'true', // Add this header
+        },
+      });
+      const text = await response.text();
+      if (text.startsWith('<!DOCTYPE html>')) {
+        console.error('Received HTML response:', text); // Debugging
+        throw new Error('Backend returned HTML instead of JSON');
       }
-      const data = await response.json();
-      console.log('Fetched data:', data); // Debugging
+      const data = JSON.parse(text);
       return data;
     } catch (error) {
       console.error('Error fetching items:', error); // Debugging
@@ -101,7 +104,12 @@ const useStore = create((set) => ({
   fetchItemDetails: async (id) => {
     try {
       console.log('Fetching item details for ID:', id); // Debugging
-      const response = await fetch(`https://a735-103-181-14-146.ngrok-free.app/api/items/${id}`);
+      const response = await fetch(`https://a929-103-181-14-146.ngrok-free.app/api/items/${id}`, {
+        headers: {
+          'ngrok-skip-browser-warning': 'true', // Add this header
+        },
+      });
+      console.log
       console.log('Response status:', response.status); // Debugging
       if (!response.ok) {
         if (response.status === 404) {
