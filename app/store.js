@@ -2,10 +2,15 @@ import { create } from 'zustand';
 
 const useStore = create((set) => ({
   competitorPrice: 0,
+  demandSurge: 0,
+  supplierPrice: 0,
   ourPrice: 10,
   suggestedPrice: 0,
   productWeight: 0,
   stockLeft: 0,
+  daystoexpiry: 0,
+  itemName: '',
+  itemCategory: '',
   comparison: {
     sign: '>',
     color: 'bg-green-600',
@@ -39,6 +44,11 @@ const useStore = create((set) => ({
   chartData: [], // Add chart data to the store
 
   // Actions to update the state
+  setItemName: (itemName) => set({ itemName }),
+  setItemCategory: (itemCategory) => set({ itemCategory }),
+  setSupplierPrice: (sPrice) => set({ supplierPrice: sPrice }),
+  setDemandSurge: (demand) => set({ demandSurge: demand }),
+  setDaysToExpiry: (expiry) => set({ daystoexpiry: expiry }),
   setCompetitorPrice: (cPrice) => set({ competitorPrice: cPrice }),
   setOurPrice: (oPrice) => set({ ourPrice: oPrice }),
   setSuggestedPrice: (sPrice) => set({ suggestedPrice: sPrice }),

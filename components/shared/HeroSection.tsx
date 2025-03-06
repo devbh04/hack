@@ -5,7 +5,7 @@ import useStore from "@/app/store"; // Import the Zustand store
 
 const HeroSection = () => {
   // Get state and actions from the store
-  const { competitorPrice, ourPrice, suggestedPrice, comparison, productWeight, stockLeft , selectedItem} = useStore();
+  const { competitorPrice, ourPrice, suggestedPrice, comparison, productWeight, stockLeft , selectedItem, supplierPrice} = useStore();
   
   return (
     <div className="w-full p-10 flex flex-col gap-8 overflow-hidden bg-slate-50">
@@ -52,7 +52,7 @@ const HeroSection = () => {
           <div className="flex-1 p-6 border-2 border-gray-400 rounded-lg bg-white shadow-md hover:shadow-lg transition-all duration-300">
             <p className="text-xl text-gray-700 text-center">Supplier Cost</p>
             <div className="flex justify-center items-center gap-2">
-              <p className="text-2xl font-bold text-black text-center">₹{selectedItem.Supplier_cost}</p>
+              <p className="text-2xl font-bold text-black text-center">₹{supplierPrice}</p>
             </div>
           </div>
       

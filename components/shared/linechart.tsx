@@ -24,7 +24,7 @@ const generateRandomPrices = (basePrice, count, stockLeft, productWeight, compet
   for (let i = 0; i < count; i++) {
     // Adjust the base price based on stock, weight, and competitor price
     const adjustedPrice = basePrice + (stockLeft * 0.1) + (productWeight * 0.05) + (competitorPrice * 0.2);
-    const randomPrice = adjustedPrice + (Math.random() * 20 - 10); // Add some randomness
+    const randomPrice = adjustedPrice + (Math.random() * 50 - 10); // Add some randomness
     prices.push(randomPrice.toFixed(2)); // Round to 2 decimal places
   }
   return prices;

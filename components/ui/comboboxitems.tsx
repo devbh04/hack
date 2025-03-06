@@ -1,4 +1,3 @@
-'use client';
 import React, { useState } from 'react';
 import { Check, ChevronsUpDown } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -22,7 +21,7 @@ export function ComboboxDemoItem() {
   const [open, setOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [items, setItems] = useState([]);
-  const { fetchItems, fetchItemDetails } = useStore();
+  const { fetchItems, fetchItemDetails, setItemName, setItemCategory } = useStore();
 
   const handleSearch = async (term) => {
     setSearchTerm(term);
@@ -64,11 +63,12 @@ export function ComboboxDemoItem() {
             <CommandGroup>
               {items.map((item) => (
                 <CommandItem
-                  key={item.Item_identifier} // Use a unique field like Item_identifier
+                  key={item.Item_identifier}
                   value={item.Item_name}
                   onSelect={() => {
-                    console.log(item.Item_identifier)
-                    fetchItemDetails(item.Item_identifier); // Use the correct unique identifier
+                    fetchItemDetails(item.Item_identifier);
+                    setItemName(item.Item_name);
+                    setItemCategory(item.Item_type); // Assuming Item_type is the category
                     setOpen(false);
                   }}
                 >

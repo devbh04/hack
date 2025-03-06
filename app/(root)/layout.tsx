@@ -1,12 +1,20 @@
-import AppBar from "@/components/shared/appbar";
+'use client'
+import React from 'react';
 
-export default function RootLayout({ children }) {
+import useStore from '@/app/store';
+import AppBar from '@/components/shared/appbar';
+
+const Layout = ({ children }) => {
+  const { itemName, itemCategory } = useStore();
+
   return (
-    <main lang="en" className="">
-      <AppBar itemName={"Milk"} itemCat={"Dairy"} />
-      <div className="pt-20"> {/* Add padding to prevent overlap with AppBar */}
+    <div>
+      <AppBar itemName={itemName} itemCategory={itemCategory} />
+      <div className='pt-20'> {/* Add padding to avoid content being hidden behind the fixed AppBar */}
         {children}
       </div>
-    </main>
+    </div>
   );
-}
+};
+
+export default Layout;

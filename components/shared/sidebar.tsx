@@ -16,8 +16,6 @@ const SideBar = () => {
   const [weatherCondition, setWeatherCondition] = useState("");
   const [festiveSeason, setFestiveSeason] = useState("");
   const [productRating, setProductRating] = useState(0);
-  const [daysToExpiry, setDaysToExpiry] = useState(0);
-  const [demandSurge, setDemandSurge] = useState(0);
 
   // Get actions and state from the store
   const {
@@ -29,10 +27,18 @@ const SideBar = () => {
     setStockLeft,
     updateSampleInput,
     selectedItem,
+    setSupplierPrice,
+    setItemName,
+    setItemCategory,
+    setDaysToExpiry,
+    setDemandSurge
   } = useStore();
 
   const {
-    stockLeft
+    stockLeft,
+    supplierPrice,
+    daystoexpiry,
+    demandSurge
   } = useStore();
 
   const handleDateChange = (newDate: Date | undefined) => {
@@ -57,29 +63,36 @@ const SideBar = () => {
   };
 
   // Function to calculate the suggested price
-  const suggestPrice = (selectedItem, stockLeft) => {
-    // Normalize factors
+  const suggestPrice = (selectedItem, stockLeft,) => {
+    // Normalize values
     const normalize = (value, min, max) => (value - min) / (max - min);
   
-    // Define ranges for normalization (adjusted based on expected values)
+    // Define normalization ranges
     const competitorPriceRange = { min: selectedItem.Price * 0.5, max: selectedItem.Price * 1.5 };
     const supplierCostRange = { min: selectedItem.Price * 0.2, max: selectedItem.Price * 1.2 };
     const stockLeftRange = { min: 0, max: 1000 };
+    const salesRange = { min: 0, max: 500 };
+    const expiryRange = { min: 0, max: 365 };
+    const demandSurgeRange = { min: 0, max: 100 };
   
     // Normalize each factor
     const CP = normalize(selectedItem.Competitor_price, competitorPriceRange.min, competitorPriceRange.max);
-    const SC = normalize(selectedItem.Supplier_cost, supplierCostRange.min, supplierCostRange.max);
+    const SC = normalize(supplierPrice, supplierCostRange.min, supplierCostRange.max);
     const SL = normalize(stockLeft, stockLeftRange.min, stockLeftRange.max);
+    const S = normalize(selectedItem.Sales, salesRange.min, salesRange.max);
+    const Exp = 1 - normalize(daystoexpiry, expiryRange.min, expiryRange.max); // Less expiry days -> lower price
+    const DS = normalize(demandSurge, demandSurgeRange.min, demandSurgeRange.max);
   
-    // Calculate weighted sum
+    // Weighted sum based on market conditions
     const basePrice = selectedItem.Price;
-    const weightedSum = (CP * 0.30) + (SC * 0.20) + (SL * 0.10);
+    const weightedSum = (CP * 0.30) + (SC * 0.20) + (SL * 0.10) + (S * 0.15) + (Exp * 0.15) + (DS * 0.10);
   
-    // Scale back to actual price range
-    const priceMultiplier = basePrice * 0.9 + weightedSum * basePrice * 0.2;
+    // Adjust price dynamically
+    const priceMultiplier = basePrice * (0.85 + weightedSum * 0.3); // Adjust range
   
     return priceMultiplier;
   };
+  
   
 
   const handleClick = () => {
@@ -126,7 +139,7 @@ const SideBar = () => {
       </div>
       <div className='px-4 py-2 flex flex-col'>
         <p className='pl-1'>Supplier Cost: </p>
-        <Input placeholder='Amount' onChange={(e) => setSupplierCost(Number(e.target.value))} />
+        <Input placeholder='Amount' onChange={(e) => setSupplierPrice(Number(e.target.value))} />
       </div>
       <div className='px-4 py-2 flex flex-col'>
         <p className='pl-1'>Weather Condition: </p>
